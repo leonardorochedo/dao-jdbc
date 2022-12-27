@@ -31,10 +31,10 @@ public class SellerDaoJDBC implements SellerDao {
 		try {
 			st = conn.prepareStatement(
 					"INSERT INTO seller\r\n"
-							+ "(Name, Email, BirthDate, BaseSalary, DepartmentId)\r\n"
-							+ "VALUES\r\n"
-							+ "(?, ?, ?, ?, ?)",
-							Statement.RETURN_GENERATED_KEYS
+					+ "(Name, Email, BirthDate, BaseSalary, DepartmentId)\r\n"
+					+ "VALUES\r\n"
+					+ "(?, ?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS
 					);
 			st.setString(1, obj.getName());
 			st.setString(2, obj.getEmail());
@@ -64,7 +64,29 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public void update(Seller obj) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		
+		try {
+			st = conn.prepareStatement(
+					"UPDATE seller\r\n"
+					+ "SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ?\r\n"
+					+ "WHERE Id = ?",
+					Statement.RETURN_GENERATED_KEYS
+					);
+			st.setString(1, obj.getName());
+			st.setString(2, obj.getEmail());
+			st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+			st.setDouble(4, obj.getBaseSalary());
+			st.setInt(5, obj.getDepartment().getId());
+			st.setInt(6, obj.getId());
+			
+			st.executeUpdate();
+
+		} catch(SQLException err) {
+			throw new DbException(err.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
 
 	}
 
