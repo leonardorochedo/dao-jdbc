@@ -1,60 +1,44 @@
 package application;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import model.dao.DaoFactory;
-import model.dao.SellerDao;
+import model.dao.DepartmentDao;
 import model.entities.Department;
-import model.entities.Seller;
 
 public class Program {
 
 	public static void main(String[] args) {
 		
-		SellerDao sellerDao = DaoFactory.createSellerDao();
+		DepartmentDao departmentDao = DaoFactory.createDepartmentDao();
 		
-		System.out.println("=== TEST 1: seller findById ===");
-		Seller seller1 = sellerDao.findById(3);
-		System.out.println(seller1);
+		System.out.println("=== TEST 1: department insert ===");
+		Department dep1 = new Department(7, "Lazer");
+//		departmentDao.insert(dep1);
+		System.out.println("Inserted! New id= " + dep1.getId());
 		System.out.println();
 		
-		System.out.println("=== TEST 2: seller findByDepartment ===");
-		Department dep1 = new Department(2, null);
-		List<Seller> list1 = sellerDao.findByDepartment(dep1);
-		for(Seller obj: list1) {
-			System.out.println(obj);
-		}
+		System.out.println("=== TEST 2: department update ===");
+		Department dep2 = new Department(6, "Robotica");
+		departmentDao.update(dep2);
+		System.out.println("Updated! New id= " + dep2.getId());
 		System.out.println();
 		
-		System.out.println("=== TEST 3: seller findAll ===");
-		List<Seller> list2 = sellerDao.findAll();
-		for(Seller obj: list2) {
-			System.out.println(obj);
-		}
-		System.out.println();
-		
-		System.out.println("=== TEST 4: seller insert ===");
-		Seller seller2 = new Seller(null, "Greg", "greg@gmail.com", new Date(), 4000.0, dep1);
-		sellerDao.insert(seller2);
-		System.out.println("Inserted! New id= " + seller2.getId());
-		System.out.println();
-		
-		System.out.println("=== TEST 5: seller update ===");
-		Seller sellerUp = sellerDao.findById(4);
-		sellerUp.setName("Leonardo");
-		sellerDao.update(sellerUp);
-		System.out.println("Updated complete!");
-		System.out.println();
-		
-		System.out.println("=== TEST 6: seller delete ===");
-		Scanner sc = new Scanner(System.in);
-		System.out.print("Enter id for delete test: ");
-		int id = sc.nextInt();
-		sellerDao.deleteById(id);
-		sc.close();
+		System.out.println("=== TEST 3: department deleteById ===");
+		departmentDao.deleteById(6);
 		System.out.println("Deleted!");
+		System.out.println();
+		
+		System.out.println("=== TEST 4: department findById ===");
+		System.out.println(departmentDao.findById(5));
+		System.out.println();
+		
+		System.out.println("=== TEST 5: department findAll ===");
+		List<Department> list = departmentDao.findAll();
+		for(Department obj: list) {
+			System.out.println(obj);
+		}
 		System.out.println();
 	}
 
