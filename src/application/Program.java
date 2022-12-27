@@ -1,5 +1,7 @@
 package application;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -12,11 +14,12 @@ import model.entities.Seller;
 
 public class Program {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 
 		DepartmentDao departmentDao = DaoFactory.createDepartmentDao();
 		SellerDao sellerDao = DaoFactory.createSellerDao();
 		Scanner sc = new Scanner(System.in);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 		int x = 0;
 		while (x == 0) {
@@ -43,8 +46,8 @@ public class Program {
 				String name = sc.nextLine();
 				System.out.print("Email: ");
 				String email = sc.nextLine();
-				System.out.println("Data de Nascimento: ");
-				Date birthDate = new Date();
+				System.out.println("Data de Nascimento (dd/MM/yyyy): ");
+				Date birthDate = sdf.parse(sc.nextLine());
 				System.out.print("Salario: ");
 				Double baseSalary = sc.nextDouble();
 				System.out.print("Departamento: ");
